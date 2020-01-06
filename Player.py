@@ -1,14 +1,15 @@
 from Spell import Spell
 from Rune import Rune
 
+
 class Player:
 
-    # position features are assuming a 7 wide playing space (this can be overridden, hopefully we evenutally have this
-    # as a needed perameter or a constant), thus 4 is the center. Again feel free to change.
-    # don't know what the plan is with position here, feek free to move this code around all you want.
+    # position features are assuming a 7 wide playing space (this can be overridden, hopefully we eventually have this
+    # as a needed parameter or a constant), thus 4 is the center. Again feel free to change.
+    # don't know what the plan is with position here, feel free to move this code around all you want.
     def __init__(self, name: str, game_width: int = 7):
-        self.position = round(game_width/2)
-        self.__max_position = self.position + int(game_width/2)
+        self.position = round(game_width / 2)
+        self.__max_position = self.position + int(game_width / 2)
         self.__min_position = 0
         self.name = name
         self.health = 100

@@ -5,6 +5,12 @@ class Spell:
         self.owner = owner
         self.runes = runes
 
+    def __repr__(self):
+        string = ""
+        for rune in self.runes:
+            string += rune.name + " "
+        return string
+
     # adds a rune to the spell. should only be used in the context of the players current spell
     def add_rune(self, rune: Rune):
         self.runes.append(rune)
@@ -20,3 +26,4 @@ class Spell:
         # where the spell appoaches top down, we should probably have an external file constaining a 2d-array with
         # the spell mask for each spell. eg [[0,1,0],[0,1,0],[0,1,0]] would be a 3 long line straight down the middle of
         # the screen
+
