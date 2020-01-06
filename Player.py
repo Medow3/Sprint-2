@@ -34,6 +34,17 @@ class Player:
         self.position -= 1
         if self.position < self.__min_position:
             self.position = self.__min_position
+    
+    # input the other object (needs a position attribute) and returns
+    # whether it and the player is colliding
+    def hit_detection(self, other):
+        if other.position == self.position:
+            return True
+        return False
+    
+    def is_hit(self, damage):
+        self.health -= damage
+        
 
     # possibily should have a cast_current_spell_list function to this class, atlthough that may be handled best at the
     # Game class level. Depends on how you implement it with kivy integration.
