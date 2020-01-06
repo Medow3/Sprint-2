@@ -16,7 +16,7 @@ class Grid(GridLayout):
 
         self.cols = 1
 
-        progress_bar = SpellDisplay(size_hint=(None, None), size=(Window.width, Window.height*0.05))
+        progress_bar = SpellDisplay(size_hint=(None, None), size=(Window.width, Window.height * 0.05))
         self.add_widget(progress_bar)
 
         self.nexus = Button(text='nexus')
@@ -28,7 +28,8 @@ class Grid(GridLayout):
         self.inside.cols = 3
         self.inside.rows = 4
 
-        # initializes the 4 by 3 grid of runes from file
+        # initializes the 4 by 3 grid of runes from file, this is bad because the inside.cols and inside.rows are
+        # just assumed to work with this file
         for rune_name in lh.translation_dict():
             self.inside.add_widget(RuneButton(rune_name))
 
@@ -90,15 +91,20 @@ class Grid(GridLayout):
         player1.add_spell_to_spell_list()
 
 
-
 class SpellDisplay(ProgressBar):
     def __init__(self, **kwargs):
         super(SpellDisplay, self).__init__(**kwargs)
-        self.max = 5
+        self.max = 2
         self.value = 0
 
     def increment(self):
+        if self.value == self.max:
+            # TODO player1.cast()
+            self.value = 0
+            self.max += 1
+            return
         self.value += 1
+
 
 class RuneButton(Button):
     def __init__(self, name: str, **kwargs):
