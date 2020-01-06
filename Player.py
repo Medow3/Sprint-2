@@ -25,6 +25,9 @@ class Player:
     def add_rune_to_spell(self, rune: Rune):
         self.current_spell.add_rune(rune)
 
+    def cast_spell_list(self):
+        self.current_spell_list = []
+
     def move_right(self):
         self.position += 1
         if self.position > self.__max_position:
