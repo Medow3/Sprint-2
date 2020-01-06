@@ -2,6 +2,8 @@ from kivy.app import App
 from kivy.uix.label import Label
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.button import Button
+from kivy.uix.progressbar import ProgressBar
+from kivy.core.window import Window
 
 from Player import Player
 from Rune import Rune
@@ -14,8 +16,12 @@ class Grid(GridLayout):
 
         self.cols = 1
 
+        progress_bar = SpellDisplay(size_hint=(None, None), size=(Window.width, Window.height*0.05))
+        self.add_widget(progress_bar)
+
         self.nexus = Button(text='nexus')
-        self.nexus.bind(on_press=self.nexus_pressed)
+        # lambda dark magic is needed. Don't question it
+        self.nexus.bind(on_press=lambda touch: self.nexus_pressed(progress_bar))
         self.add_widget(self.nexus)
 
         self.inside = GridLayout()
@@ -77,10 +83,22 @@ class Grid(GridLayout):
 
         self.add_widget(self.inside)
 
-    def nexus_pressed(self, instance):
+    @staticmethod
+    def nexus_pressed(progress_bar):
+        progress_bar.increment()
         print('added spell:', player1.current_spell, 'to spell list')
         player1.add_spell_to_spell_list()
 
+
+
+class SpellDisplay(ProgressBar):
+    def __init__(self, **kwargs):
+        super(SpellDisplay, self).__init__(**kwargs)
+        self.max = 5
+        self.value = 0
+
+    def increment(self):
+        self.value += 1
 
 class RuneButton(Button):
     def __init__(self, name: str, **kwargs):
@@ -93,8 +111,6 @@ class RuneButton(Button):
         print('pressed', self.text)
 
 
-# I would have a large class like this to contain everything and run the game updates. 
-# Again this could be a kivy class
 class Game(App):
     def build(self):
         return Grid()
