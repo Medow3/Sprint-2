@@ -8,7 +8,6 @@ from kivy.clock import Clock
 from kivy.uix.widget import Widget
 from kivy.uix.label import Label
 
-
 # from DodgePhase import *
 from Player import Player
 from Rune import Rune
@@ -82,11 +81,8 @@ class Game(App):
         screen_manager.add_widget(Screen(name="dodge_screen"))
         screen_manager.screens[0].add_widget(CastGrid())
         screen_manager.screens[1].add_widget(DodgeGrid())
-        Clock.schedule_interval(screen_manager.update, 1.0 / 10.0)
+        Clock.schedule_interval(screen_manager.update, 1.0 / 30)
         return screen_manager
-
-
-
 
 
 class DodgeGrid(GridLayout):
@@ -99,14 +95,14 @@ class DodgeGrid(GridLayout):
         self.add_widget(Label(text="P1"))
         for i in range(3):
             self.add_widget(Label(text="."))
-            
+
         self._keyboard = Window.request_keyboard(self._keyboard_closed, self)
         self._keyboard.bind(on_key_down=self._on_keyboard_down)
 
     def _keyboard_closed(self):
         self._keyboard.unbind(on_key_down=self._on_keyboard_down)
         self._keyboard = None
-    
+
     def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
         list[9][player1.position] = 0
         if keycode[1] == 'right':
@@ -114,7 +110,7 @@ class DodgeGrid(GridLayout):
         elif keycode[1] == 'left':
             player1.move_left()
         list[9][player1.position] = 'P'
-    
+
     def print_list(self):
         print(self.list)
 
@@ -123,7 +119,7 @@ class ScreenManager(ScreenManager):
     def update(self, dt):
         if phase == 'dodgeing':
             print_areana()
-        
+
 
 def print_areana():
     print('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n')

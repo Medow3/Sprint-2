@@ -40,11 +40,14 @@ class Player:
     
     # input the other object (needs a position attribute) and returns
     # whether it and the player is colliding
-    def hit_detection(self, other):
-        if other.position == self.position:
-            return True
-        return False
-    
+    def hit_detection(self, bottom_row):
+        index = 0
+        for cell in bottom_row:
+            if cell == "H":
+                if self.position == index:
+                    self.is_hit()
+            index += 1
+
     def is_hit(self, damage):
         self.health -= damage
         
