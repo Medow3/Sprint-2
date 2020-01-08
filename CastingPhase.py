@@ -117,8 +117,19 @@ class DodgeGrid(GridLayout):
 
 class ScreenManager(ScreenManager):
     def update(self, dt):
+        global timer, phase
         if phase == 'dodgeing':
-            print_areana()
+            print_areana()            
+            timer += 1
+            
+            if timer == 30:
+                player1.current_spell_list[0].cast(list)
+            if timer == 60:
+                player1.current_spell_list[1].cast(list)
+            if timer == 100:
+                phase = 'casting'
+                screen_manager.switch_to(screen_manager.screens[0])
+                print('should have switched back to casting screen')
 
 
 def print_areana():
@@ -138,7 +149,7 @@ list = [[0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 'P', 0, 0, 0]]
-
+timer = 0
 screen_manager = ScreenManager()
 player1 = Player('player 1')
 phase = 'casting'
