@@ -1,12 +1,12 @@
 from os import listdir
 from Language_Handler import *
 
+
 class Rune:
     def __init__(self, name: str):
         self.name = name
         self.element_icon_path = self.__icon_path(easy_icon=True)
         self.rune_icon_path = self.__icon_path(easy_icon=False)
-
 
     # returns the path to the icon, if one wants the explict icon, leave the second arg blank or True, else set to False
     # if you set to a bool, for the sake of readability write as: rune.get_icon_path(want_easy_icon=False). Although
@@ -28,6 +28,3 @@ class Rune:
         # if function doesnt find a icon with insances name we get here
         print(self.name, "does not have an accosiated icon in:", icon_path)
         return FileNotFoundError
-
-
-

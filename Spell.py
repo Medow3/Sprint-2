@@ -26,6 +26,7 @@ class Spell:
         for rune in self.runes:
             rune_names += rune.name + " "
         print("casted a spell with: " + rune_names)
+        return [0, 0, 0, 0, "H", 0, 0]
         # not sure what behavior to add here. Let me know whats wanted. If we are going with a gridlike dodge phase
         # where the spell approaches top down, we should probably have an external file containing a 2d-array with
         # the spell mask for each spell. eg [[0,1,0],[0,1,0],[0,1,0]] would be a 3 long line straight down the middle of
