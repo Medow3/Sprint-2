@@ -23,34 +23,36 @@ class Spell:
     # parameter if needed
     def cast(self, list):
         for rune in self.runes:
+            row = [0, 0, 0, 0, 0, 0, 0]
             if rune.name == 'aether':
-                list[0][0] = 'S'
+                row[0] = 'S'
             elif rune.name == 'air':
-                list[0][1] = 'S'
+                row[1] = 'S'
             elif rune.name == 'chaos':
-                list[0][2] = 'S'
+                row[2] = 'S'
             elif rune.name == 'earth':
-                list[0][3] = 'S'
+                row[3] = 'S'
             elif rune.name == 'fire':
-                list[0][4] = 'S'
+                row[4] = 'S'
             elif rune.name == 'life':
-                list[0][5] = 'S'
+                row[5] = 'S'
             elif rune.name == 'light':
-                list[0][6] = 'S'
+                row[6] = 'S'
             elif rune.name == 'nature':
-                list[0][0] = 'S'
+                row[0] = 'S'
             elif rune.name == 'order':
-                list[0][1] = 'S'
+                row[1] = 'S'
             elif rune.name == 'spirit':
-                list[0][2] = 'S'
+                row[2] = 'S'
             elif rune.name == 'time':
-                list[0][3] = 'S'
+                row[3] = 'S'
             elif rune.name == 'water':
-                list[0][4] = 'S'
-           
+                row[4] = 'S'
+            return row
+
         # rune_names = ""
         # for rune in self.runes:
-            # rune_names += rune.name + " "
+        # rune_names += rune.name + " "
         # print("casted a spell with: " + rune_names)
         # not sure what behavior to add here. Let me know whats wanted. If we are going with a gridlike dodge phase
         # where the spell approaches top down, we should probably have an external file containing a 2d-array with

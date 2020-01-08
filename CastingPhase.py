@@ -12,6 +12,7 @@ from kivy.uix.label import Label
 from Player import Player
 from Rune import Rune
 import Language_Handler as lh
+import GameBoard_Manager as game_manager
 
 
 class CastGrid(GridLayout):
@@ -58,7 +59,6 @@ class SpellDisplay(ProgressBar):
             self.value = 0
             self.max += 1
             print("casted:", player1.current_spell_list)
-            player1.cast_spell_list()
             global phase
             phase = 'dodgeing'
             screen_manager.switch_to(screen_manager.screens[1])
@@ -104,51 +104,52 @@ class DodgeGrid(GridLayout):
         self._keyboard = None
 
     def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
-        list[9][player1.position] = 0
+        starting_array[9][player1.position] = 0
         if keycode[1] == 'right':
             player1.move_right()
         elif keycode[1] == 'left':
             player1.move_left()
-        list[9][player1.position] = 'P'
-
-    def print_list(self):
-        print(self.list)
 
 
 class ScreenManager(ScreenManager):
     def update(self, dt):
         global timer, phase
+        global starting_array
         if phase == 'dodgeing':
-            print_areana()            
             timer += 1
-            
             if timer == 30:
-                player1.current_spell_list[0].cast(list)
-            if timer == 60:
-                player1.current_spell_list[1].cast(list)
-            if timer == 100:
+                new_row = player1.current_spell_list[0].cast(starting_array)
+                starting_array = game_manager.drop_rows(starting_array, player1, new_row)
+            elif timer == 60:
+                new_row = player1.current_spell_list[1].cast(starting_array)
+                starting_array = game_manager.drop_rows(starting_array, player1, new_row)
+            elif timer == 100000:
                 phase = 'casting'
                 screen_manager.switch_to(screen_manager.screens[0])
                 print('should have switched back to casting screen')
+            if timer % 10 == 0:
+                print("**" * 100)
+                print_areana()
+                starting_array = game_manager.drop_rows(starting_array, player1, [0, 0, 0, 0, 0, 0, 0])
 
 
 def print_areana():
-    print('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n')
-    for i in list:
-        print(*i)
+    for i in starting_array:
+        print(i)
 
 
 # please forgive the sin of the globals
-list = [[0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 'P', 0, 0, 0]]
+starting_array = [[0, 0, 0, 0, 0, 0, 0],
+                  [0, 0, 0, 0, 0, 0, 0],
+                  [0, 0, 0, 0, 0, 0, 0],
+                  [0, 0, 0, 0, 0, 0, 0],
+                  [0, 0, 0, 0, 0, 0, 0],
+                  [0, 0, 0, 0, 0, 0, 0],
+                  [0, 0, 0, 0, 0, 0, 0],
+                  [0, 0, 0, 0, 0, 0, 0],
+                  [0, 0, 0, 0, 0, 0, 0],
+                  [0, 0, 0, 'P', 0, 0, 0]]
+
 timer = 0
 screen_manager = ScreenManager()
 player1 = Player('player 1')

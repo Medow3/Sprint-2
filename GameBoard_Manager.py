@@ -10,8 +10,6 @@ def drop_rows(game_array: list, player: Player, new_row=None):
         index += 1
     new_game_array[0] = new_row
     new_game_array[len(new_game_array)-1][player.position] = "p"
-    for row in new_game_array:
-        print(row)
     print("**" * 100)
     print("leaving drop_rows")
     return new_game_array
