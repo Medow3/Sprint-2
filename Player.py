@@ -26,7 +26,8 @@ class Player:
         self.current_spell.add_rune(rune)
 
     def cast_spell_list(self):
-        self.current_spell_list = []
+        pass
+        #self.current_spell_list = []
 
     def move_right(self):
         self.position += 1
