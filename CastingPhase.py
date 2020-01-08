@@ -92,13 +92,6 @@ class Game(App):
 class DodgeGrid(GridLayout):
     def __init__(self, **kwargs):
         super(DodgeGrid, self).__init__(**kwargs)
-        self.rows = 10
-        self.cols = 7
-        for i in range(66):
-            self.add_widget(Label(text="."))
-        self.add_widget(Label(text="P1"))
-        for i in range(3):
-            self.add_widget(Label(text="."))
             
         self._keyboard = Window.request_keyboard(self._keyboard_closed, self)
         self._keyboard.bind(on_key_down=self._on_keyboard_down)
@@ -121,8 +114,19 @@ class DodgeGrid(GridLayout):
 
 class ScreenManager(ScreenManager):
     def update(self, dt):
+        global timer
         if phase == 'dodgeing':
             print_areana()
+            
+            timer += 1
+            
+            if timer == 10:
+                player1.current_spell_list[0].cast(list)
+            if timer == 100:
+                screen_manager.switch_to(screen_manager.screens[0])
+            
+            
+        
         
 
 def print_areana():
@@ -142,7 +146,7 @@ list = [[0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 'P', 0, 0, 0]]
-
+timer = 0
 screen_manager = ScreenManager()
 player1 = Player('player 1')
 phase = 'casting'
