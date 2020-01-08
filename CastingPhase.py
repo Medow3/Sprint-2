@@ -4,8 +4,12 @@ from kivy.uix.button import Button
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.progressbar import ProgressBar
 from kivy.core.window import Window
+from kivy.clock import Clock
+from kivy.uix.widget import Widget
+from kivy.uix.label import Label
 
-from DodgePhase import DodgeGrid
+
+# from DodgePhase import *
 from Player import Player
 from Rune import Rune
 import Language_Handler as lh
@@ -34,55 +38,6 @@ class CastGrid(GridLayout):
         for rune_name in lh.translation_dict():
             self.inside.add_widget(RuneButton(rune_name))
 
-        # leftover code
-        # self.fire = Button(text='fire')
-        # self.fire.bind(on_press=self.rune_pressed)
-        # self.inside.add_widget(self.fire)
-        #
-        # self.water = Button(text='water')
-        # self.water.bind(on_press=self.rune_pressed)
-        # self.inside.add_widget(self.water)
-        #
-        # self.air = Button(text='air')
-        # self.air.bind(on_press=self.rune_pressed)
-        # self.inside.add_widget(self.air)
-        #
-        # self.four = Button(text='rune 4')
-        # self.four.bind(on_press=self.rune_pressed)
-        # self.inside.add_widget(self.four)
-        #
-        # self.five = Button(text='rune 5')
-        # self.five.bind(on_press=self.rune_pressed)
-        # self.inside.add_widget(self.five)
-        #
-        # self.six = Button(text='rune 6')
-        # self.six.bind(on_press=self.rune_pressed)
-        # self.inside.add_widget(self.six)
-        #
-        # self.seven = Button(text='rune 7')
-        # self.seven.bind(on_press=self.rune_pressed)
-        # self.inside.add_widget(self.seven)
-        #
-        # self.eight = Button(text='rune 8')
-        # self.eight.bind(on_press=self.rune_pressed)
-        # self.inside.add_widget(self.eight)
-        #
-        # self.nine = Button(text='rune 9')
-        # self.nine.bind(on_press=self.rune_pressed)
-        # self.inside.add_widget(self.nine)
-        #
-        # self.ten = Button(text='rune 10')
-        # self.ten.bind(on_press=self.rune_pressed)
-        # self.inside.add_widget(self.ten)
-        #
-        # self.eleven = Button(text='rune 11')
-        # self.eleven.bind(on_press=self.rune_pressed)
-        # self.inside.add_widget(self.eleven)
-        #
-        # self.twelve = Button(text='rune 12')
-        # self.twelve.bind(on_press=self.rune_pressed)
-        # self.inside.add_widget(self.twelve)
-
         self.add_widget(self.inside)
 
     @staticmethod
@@ -105,6 +60,8 @@ class SpellDisplay(ProgressBar):
             self.max += 1
             print("casted:", player1.current_spell_list)
             player1.cast_spell_list()
+            global phase
+            phase = 'dodgeing'
             screen_manager.switch_to(screen_manager.screens[1])
 
 
@@ -125,10 +82,68 @@ class Game(App):
         screen_manager.add_widget(Screen(name="dodge_screen"))
         screen_manager.screens[0].add_widget(CastGrid())
         screen_manager.screens[1].add_widget(DodgeGrid())
+        Clock.schedule_interval(screen_manager.update, 1.0 / 10.0)
         return screen_manager
 
 
+
+
+
+class DodgeGrid(GridLayout):
+    def __init__(self, **kwargs):
+        super(DodgeGrid, self).__init__(**kwargs)
+        self.rows = 10
+        self.cols = 7
+        for i in range(66):
+            self.add_widget(Label(text="."))
+        self.add_widget(Label(text="P1"))
+        for i in range(3):
+            self.add_widget(Label(text="."))
+            
+        self._keyboard = Window.request_keyboard(self._keyboard_closed, self)
+        self._keyboard.bind(on_key_down=self._on_keyboard_down)
+
+    def _keyboard_closed(self):
+        self._keyboard.unbind(on_key_down=self._on_keyboard_down)
+        self._keyboard = None
+    
+    def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
+        list[9][player1.position] = 0
+        if keycode[1] == 'right':
+            player1.move_right()
+        elif keycode[1] == 'left':
+            player1.move_left()
+        list[9][player1.position] = 'P'
+    
+    def print_list(self):
+        print(self.list)
+
+
+class ScreenManager(ScreenManager):
+    def update(self, dt):
+        if phase == 'dodgeing':
+            print_areana()
+        
+
+def print_areana():
+    print('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n')
+    for i in list:
+        print(*i)
+
+
 # please forgive the sin of the globals
+list = [[0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 'P', 0, 0, 0]]
+
 screen_manager = ScreenManager()
 player1 = Player('player 1')
+phase = 'casting'
 Game().run()
