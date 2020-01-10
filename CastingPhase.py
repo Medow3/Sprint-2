@@ -13,6 +13,7 @@ from Player import Player
 from Rune import Rune
 import Language_Handler as lh
 import GameBoard_Manager as game_manager
+from DodgePhase import DodgeGrid
 
 
 class CastGrid(GridLayout):
@@ -80,48 +81,22 @@ class Game(App):
         screen_manager.add_widget(Screen(name="cast_screen"))
         screen_manager.add_widget(Screen(name="dodge_screen"))
         screen_manager.screens[0].add_widget(CastGrid())
-        screen_manager.screens[1].add_widget(DodgeGrid())
+        screen_manager.screens[1].add_widget(DodgeGrid(player1))
         Clock.schedule_interval(screen_manager.update, 1.0 / 30)
         return screen_manager
 
 
-class DodgeGrid(GridLayout):
-    def __init__(self, **kwargs):
-        super(DodgeGrid, self).__init__(**kwargs)
-        self.rows = 10
-        self.cols = 7
-        for i in range(66):
-            self.add_widget(Label(text="."))
-        self.add_widget(Label(text="P1"))
-        for i in range(3):
-            self.add_widget(Label(text="."))
-
-        self._keyboard = Window.request_keyboard(self._keyboard_closed, self)
-        self._keyboard.bind(on_key_down=self._on_keyboard_down)
-
-    def _keyboard_closed(self):
-        self._keyboard.unbind(on_key_down=self._on_keyboard_down)
-        self._keyboard = None
-
-    def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
-        starting_array[9][player1.position] = 0
-        if keycode[1] == 'right':
-            player1.move_right()
-        elif keycode[1] == 'left':
-            player1.move_left()
-
-
-class ScreenManager(ScreenManager):
+class MyScreenManager(ScreenManager):
     def update(self, dt):
         global timer, phase
         global starting_array
         if phase == 'dodgeing':
             timer += 1
             if timer == 30:
-                new_row = player1.current_spell_list[0].cast(starting_array)
+                new_row = player1.current_spell_list[0].cast()
                 starting_array = game_manager.drop_rows(starting_array, player1, new_row)
             elif timer == 60:
-                new_row = player1.current_spell_list[1].cast(starting_array)
+                new_row = player1.current_spell_list[1].cast()
                 starting_array = game_manager.drop_rows(starting_array, player1, new_row)
             elif timer == 100000:
                 phase = 'casting'
@@ -151,7 +126,7 @@ starting_array = [[0, 0, 0, 0, 0, 0, 0],
                   [0, 0, 0, 'P', 0, 0, 0]]
 
 timer = 0
-screen_manager = ScreenManager()
+screen_manager = MyScreenManager()
 player1 = Player('player 1')
 phase = 'casting'
 Game().run()

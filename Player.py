@@ -9,7 +9,7 @@ class Player:
     # don't know what the plan is with position here, feel free to move this code around all you want.
     def __init__(self, name: str, game_width: int = 7):
         self.position = round(game_width / 2)
-        self.__max_position = self.position + int(game_width / 2)
+        self.__max_position = game_width - 1
         self.__min_position = 0
         self.name = name
         self.health = 100
