@@ -22,8 +22,8 @@ class Spell:
     # casts that bad boy. This is very incomplete as I am unsure of intended behavior. Feel free to add target as a
     # parameter if needed
     def cast(self):
+        row = ['.', '.', '.', '.', '.', '.', '.']
         for rune in self.runes:
-            row = [0, 0, 0, 0, 0, 0, 0]
             if rune.name == 'aether':
                 row[0] = 'S'
             elif rune.name == 'air':
@@ -48,7 +48,7 @@ class Spell:
                 row[3] = 'S'
             elif rune.name == 'water':
                 row[4] = 'S'
-            return row
+        return row
 
         # rune_names = ""
         # for rune in self.runes:
