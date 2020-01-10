@@ -2,6 +2,9 @@ from Spell import Spell
 from Rune import Rune
 
 
+import sys
+
+
 class Player:
 
     # position features are assuming a 7 wide playing space (this can be overridden, hopefully we eventually have this
@@ -43,13 +46,14 @@ class Player:
     def hit_detection(self, bottom_row):
         index = 0
         for cell in bottom_row:
-            if cell == "H":
+            if cell == "S":
                 if self.position == index:
                     self.is_hit()
             index += 1
 
-    def is_hit(self, damage):
-        self.health -= damage
+    def is_hit(self):
+        print('You got hit')
+        sys.exit()
         
 
     # possibily should have a cast_current_spell_list function to this class, atlthough that may be handled best at the
