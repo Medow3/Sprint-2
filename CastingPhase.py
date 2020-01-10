@@ -98,32 +98,33 @@ class MyScreenManager(ScreenManager):
             elif timer == 60:
                 new_row = player1.current_spell_list[1].cast()
                 starting_array = game_manager.drop_rows(starting_array, player1, new_row)
-            elif timer == 100000:
+            elif timer == 150:
                 phase = 'casting'
                 screen_manager.switch_to(screen_manager.screens[0])
-                print('should have switched back to casting screen')
-            if timer % 10 == 0:
+            if timer % 8 == 0:
                 print("**" * 100)
                 print_areana()
-                starting_array = game_manager.drop_rows(starting_array, player1, [0, 0, 0, 0, 0, 0, 0])
-
+                starting_array = game_manager.drop_rows(starting_array, player1, ['.', '.', '.', '.', '.', '.', '.'])
+            
+            
 
 def print_areana():
+    print('\n' * 20)
     for i in starting_array:
-        print(i)
+        print(*i)
 
 
 # please forgive the sin of the globals
-starting_array = [[0, 0, 0, 0, 0, 0, 0],
-                  [0, 0, 0, 0, 0, 0, 0],
-                  [0, 0, 0, 0, 0, 0, 0],
-                  [0, 0, 0, 0, 0, 0, 0],
-                  [0, 0, 0, 0, 0, 0, 0],
-                  [0, 0, 0, 0, 0, 0, 0],
-                  [0, 0, 0, 0, 0, 0, 0],
-                  [0, 0, 0, 0, 0, 0, 0],
-                  [0, 0, 0, 0, 0, 0, 0],
-                  [0, 0, 0, 'P', 0, 0, 0]]
+starting_array = [['.', '.', '.', '.', '.', '.', '.'],
+                  ['.', '.', '.', '.', '.', '.', '.'],
+                  ['.', '.', '.', '.', '.', '.', '.'],
+                  ['.', '.', '.', '.', '.', '.', '.'],
+                  ['.', '.', '.', '.', '.', '.', '.'],
+                  ['.', '.', '.', '.', '.', '.', '.'],
+                  ['.', '.', '.', '.', '.', '.', '.'],
+                  ['.', '.', '.', '.', '.', '.', '.'],
+                  ['.', '.', '.', '.', '.', '.', '.'],
+                  ['.', '.', '.', 'P', '.', '.', '.']]
 
 timer = 0
 screen_manager = MyScreenManager()
